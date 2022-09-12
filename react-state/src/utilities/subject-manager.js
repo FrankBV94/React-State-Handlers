@@ -16,14 +16,14 @@ export class SubjectManager {
    * Solo lee informacion
    *
    */
-  get getSubject() {
+  getSubject() {
     return this.subject$.asObservable();
   }
 
   /**
    * Solo envia informacion
    */
-  set setSubject(value) {
+  setSubject(value) {
     this.subject$.next(value);
   }
 }
