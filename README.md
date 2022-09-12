@@ -23,10 +23,18 @@ Los Observable son creados usando el constructor o el operador de creación; son
 
 Hay cuatro conceptos cuando tratamos con Observables:
 
-Creación de Observable
-Subscripción a Observable
-Ejecución del Observable
-Desechando el Observable
+* Creación de Observable
+* Subscripción a Observable
+* Ejecución del Observable
+* Desechando el Observable
+
+**Funcionamiento**
+
+Primero, creamos un Observable por medio del mètodo create:
+
+  const observable = Observable.create((subscriber) => {
+
+  })
 #### RxJS 
 librería de Javascript, que te ayuda a gestionar secuencias de eventos.
 
