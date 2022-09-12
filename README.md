@@ -100,7 +100,7 @@ Primero, creamos un Observable por medio del mètodo *create*:
 
   Por contra, los Observables "calientes" son aquellos que pueden emitir valores sin que haya ninguna subscripción activa, porque la información del stream se produce fuera del propio Observable. RxJs dispone de algunos Observables ¨calientes¨ y el mejor ejemplo de éstos, es fromEvent que nos permite establecer un Observable sobre cualquier tipo de evento como el click del ratón.
 #### RxJS 
-librería de Javascript, que te ayuda a gestionar secuencias de eventos.
+  Librería de Javascript, que te ayuda a gestionar secuencias de eventos.
 
 **Subjects**
 
