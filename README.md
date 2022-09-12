@@ -12,7 +12,8 @@
 
 
 ### General Info
-***
+* RxJS: librería de Javascript, que te ayuda a gestionar secuencias de eventos.
+* 
 
 ### Technologies
 ***
