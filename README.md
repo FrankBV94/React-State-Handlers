@@ -91,6 +91,14 @@ Primero, creamos un Observable por medio del mètodo *create*:
   ```
 
   Así ya no liberamos recursos usados por el Observable, optimizando nuestra aplicación 😉.
+
+  **Observables frios**
+
+  Los Observables "fríos" son aquellos que no emiten valores hasta que haya una suscripción activa, ya que la información es producida dentro del Observable y por tanto solo emiten valores en el momento en que se establece una nueva subscripción, por ejemplo math.random() que devuelve valores diferentes.
+
+  **Observables Calientes**
+
+  Por contra, los Observables "calientes" son aquellos que pueden emitir valores sin que haya ninguna subscripción activa, porque la información del stream se produce fuera del propio Observable. RxJs dispone de algunos Observables ¨calientes¨ y el mejor ejemplo de éstos, es fromEvent que nos permite establecer un Observable sobre cualquier tipo de evento como el click del ratón.
 #### RxJS 
 librería de Javascript, que te ayuda a gestionar secuencias de eventos.
 
