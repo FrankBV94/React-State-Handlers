@@ -1,6 +1,10 @@
 import { Subject } from "rxjs";
 
 /**
+ * Para compartir eventos entre componentes pequeños
+ */
+
+/**
  * Los "Subject" pueden enviar y recibir informacion porque son "Observables" y "Observers' al mismo tiempo
  */
 export class SubjectManager {
