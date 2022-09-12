@@ -37,6 +37,46 @@ Primero, creamos un Observable por medio del mètodo *create*:
 
   })
   ```
+
+  El parámetro que recibe el callback es una instancia de Subscriber, el cual implementa la interface Observer. Por medio de este Subscriber podemos almacenar valores en la cola y también decidir terminar el trabajo:
+
+  ```javascript
+  subscriber.next('Un dato')
+  subscriber.next('Otro dato')
+  subscriber.next('Último dato')
+  subscriber.complete()
+  subscriber.next('Me olvidé de este') // nunca se enviará
+  ```
+
+  Una vez que se hace llamado al método complete el subscriber no podrá emitir más datos. Bien, ahora tenemos una cola con mensajes, pero, ¿cómo accedemos a ellos? Aquí es donde entra Subscription.
+
+  **Subscripciones**
+
+  Para poder acceder a los datos que tiene un Observable, tenemos que subscribirnos a él mediante un Observer. Un Observer es simplemente una interface cuya definición indica que contiene tres métodos:
+
+  ***next***: este método acepta un argumento el cual es el dato enviado por el Observable.
+  ***error***: este método también un argumento el cual es un error. Puede ser una subclase de Error o cualquier otro tipo de dato.
+  ***complete***: este método es ejecutado cuando el Observable notifica que ya no hay más valores que enviar.
+
+  Veamos al Observable en acción con un ejemplo:
+
+  ```javascript
+  const observer = {
+  next: value => console.log('Valor recibido: ', value),
+  error: err => console.error('Error encontrado: ', err),
+  complete: _ => console.log('Ya no hay más valores por recibir')
+  }
+  observable.subscribe(observer)
+  ```
+
+  Si ejecutamos ese código obtendremos la siguiente salida:
+
+  ```javascript
+  // Valor recibido: 'Un dato'
+  // Valor recibido: 'Otro dato'
+  // Valor recibido: 'Último dato'
+  // Ya no hay más valores por recibir
+  ```
 #### RxJS 
 librería de Javascript, que te ayuda a gestionar secuencias de eventos.
 
