@@ -77,6 +77,20 @@ Primero, creamos un Observable por medio del mètodo *create*:
   // Valor recibido: 'Último dato'
   // Ya no hay más valores por recibir
   ```
+
+  **Abortando subscripciones**
+
+  Las ejecuciones de un Observable pueden ser **infinitas**. Una práctica común que se desea para un Observer es abortar la ejecución cuando ya no necesitemos seguir observando valores. Para este propósito está la clase *Subscription*.
+
+  Cuando nos subscribimos a un observable, inmediatamente obtenemos una instancia de la clase *Subscription*, la cual, tiene entre su prototipo, al método *unsubscribe*. De esta manera, podemos detener la ejecución de un Observable.
+
+  ```javascript
+  const subscription = observable.subscribe(observer)
+  // luego de un rato
+  subscription.unsubscribe()
+  ```
+
+  Así ya no liberamos recursos usados por el Observable, optimizando nuestra aplicación 😉.
 #### RxJS 
 librería de Javascript, que te ayuda a gestionar secuencias de eventos.
 
