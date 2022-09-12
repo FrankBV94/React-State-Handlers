@@ -30,11 +30,11 @@ Hay cuatro conceptos cuando tratamos con Observables:
 
 **Funcionamiento**
 
-Primero, creamos un Observable por medio del mètodo create:
+Primero, creamos un Observable por medio del mètodo *create*:
 
-  const observable = Observable.create((subscriber) => {
+  `const observable = Observable.create((subscriber) => {
 
-  })
+  })`
 #### RxJS 
 librería de Javascript, que te ayuda a gestionar secuencias de eventos.
 
