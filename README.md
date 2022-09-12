@@ -54,9 +54,9 @@ Primero, creamos un Observable por medio del mètodo *create*:
 
   Para poder acceder a los datos que tiene un Observable, tenemos que subscribirnos a él mediante un Observer. Un Observer es simplemente una interface cuya definición indica que contiene tres métodos:
 
-  ***next***: este método acepta un argumento el cual es el dato enviado por el Observable.
-  ***error***: este método también un argumento el cual es un error. Puede ser una subclase de Error o cualquier otro tipo de dato.
-  ***complete***: este método es ejecutado cuando el Observable notifica que ya no hay más valores que enviar.
+  * ***next***: este método acepta un argumento el cual es el dato enviado por el Observable.
+  * ***error***: este método también un argumento el cual es un error. Puede ser una subclase de Error o cualquier otro tipo de dato.
+  * ***complete***: este método es ejecutado cuando el Observable notifica que ya no hay más valores que enviar.
 
   Veamos al Observable en acción con un ejemplo:
 
