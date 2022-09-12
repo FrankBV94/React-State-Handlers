@@ -18,7 +18,8 @@
 Un Observable es una colección "lazy" de valores a la cual puedes "subscribirte" para así poder tener acceso a los valores. Un observable es un nuevo sistema "Push" para JavaScript; este produce múltiples valores "pusheando" a los Observer (consumidores). Un observable es como un Promise; con la diferencia que un Promise solo puede otorgar un solo valor, mientras que Observable puede otorgar múltiples valores.
 
 **Anatomía de un Observable**
-  Los Observable son creados usando el constructor o el operador de creación; son subscritos a un Observer, se ejecuta para entregar next, error y complete notificaciones al Observer y su ejecución puede ser terminada.
+
+Los Observable son creados usando el constructor o el operador de creación; son subscritos a un Observer, se ejecuta para entregar next, error y complete notificaciones al Observer y su ejecución puede ser terminada.
 
 Hay cuatro conceptos cuando tratamos con Observables:
 
