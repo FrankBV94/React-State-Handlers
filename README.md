@@ -2,19 +2,19 @@
 
 ---
 
-Improve Python skills by learning how to code 20 beginner Python projects.
+Aprendiendo a usar RsJS, Context y Redux-Tollkit para manejar estados en React.
 
-## Tabla of Contenidos
+## Tabla de Contenidos
 
 - [React State Managers](#react-state-managers)
-  - [Tabla of Contenidos](#tabla-of-contenidos)
+  - [Tabla de Contenidos](#tabla-de-contenidos)
     - [Informacion General](#informacion-general)
       - [Observables](#observables)
       - [RxJS](#rxjs)
       - [Context](#context)
-      - [Redux](#redux)
-    - [Technologies](#technologies)
-    - [Installation](#installation)
+      - [Redux-Tollkit](#redux-tollkit)
+    - [Tecnologias](#tecnologias)
+    - [Instalacion](#instalacion)
     - [Collaboration](#collaboration)
     - [FAQs](#faqs)
 
@@ -743,23 +743,291 @@ class App extends React.Component {
 }
 ```
 
-#### Redux
+#### Redux-Tollkit
+
+**¿Qué es Redux?**
+
+Redux es un patrón y una biblioteca para administrar y actualizar el estado de la aplicación, utilizando eventos llamados "acciones". Sirve como un almacén centralizado para el estado que debe usarse en toda su aplicación, con reglas que garantizan que el estado solo se puede actualizar de manera predecible.
+
+**¿Cuándo debo usar Redux?**
+
+Redux lo ayuda a lidiar con la administración de estado compartido, pero como cualquier herramienta, tiene sus ventajas y desventajas. Hay más conceptos que aprender y más código que escribir. También agrega cierta indirección a su código y le pide que siga ciertas restricciones. Es una compensación entre la productividad a corto y largo plazo. 
+
+Redux es más útil cuando: 
+ 
+- Tiene una gran cantidad de estado de la aplicación que se necesita en muchos lugares de la aplicación. 
+- El estado de la aplicación se actualiza con frecuencia a lo largo del tiempo. 
+- La lógica para actualizar ese estado puede ser compleja La aplicación tiene una base de código de tamaño mediano o grande, y muchas personas pueden trabajar en ella.
+
+No todas las aplicaciones necesitan Redux. Tómese un tiempo para pensar en el tipo de aplicación que está creando y decida qué herramientas serían las mejores para ayudar a resolver los problemas en los que está trabajando.
+
+**Redux Toolkit**
+
+Redux Toolkit es un enfoque recomendado para escribir la lógica de Redux. Contiene paquetes y funciones que son esenciales para crear una aplicación Redux. Redux Toolkit se basa en las mejores prácticas sugeridas, simplifica la mayoría de las tareas de Redux, evita errores comunes y facilita la creación de aplicaciones de Redux.
+
+**Administración del Estado**
+
+Comencemos mirando un pequeño componente de contador de React. Realiza un seguimiento de un número en el estado del componente e incrementa el número cuando se hace clic en un botón:
+
+```javascript
+function Counter() {
+  // State: un valor de contador
+  const [counter, setCounter] = useState(0)
+
+  // Action: código que provoca una actualización del estado cuando algo sucede
+  const increment = () => {
+    setCounter(prevCounter => prevCounter + 1)
+  }
+
+  // View: la definición de la interfaz de usuario
+  return (
+    <div>
+      Value: {counter} <button onClick={increment}>Increment</button>
+    </div>
+  )
+}
+```
+
+Es una aplicación independiente con las siguientes partes: 
+- El estado, la fuente de verdad que impulsa nuestra aplicación.
+- La vista, una descripción declarativa de la interfaz de usuario basada en el estado actual. 
+- Las acciones, los eventos que ocurren en la aplicación según la entrada del usuario y desencadenan actualizaciones en el estado.
+
+Este es un pequeño ejemplo de "flujo de datos unidireccional": 
+- El estado describe la condición de la aplicación en un momento específico. 
+- La interfaz de usuario se representa en función de ese estado.
+- Cuando sucede algo (como que un usuario haga clic en un botón), el estado se actualiza en función de lo que ocurrió.
+- La interfaz de usuario se vuelve a renderizar en función del nuevo estado.
+
+Sin embargo, la simplicidad puede colapsar cuando tenemos múltiples componentes que necesitan compartir y usar el mismo estado, especialmente si esos componentes están ubicados en diferentes partes de la aplicación. A veces, esto se puede resolver "elevando el estado" a los componentes principales, pero eso no siempre ayuda. 
+
+Una forma de resolver esto es extraer el estado compartido de los componentes y colocarlo en una ubicación centralizada fuera del árbol de componentes. Con esto, nuestro árbol de componentes se convierte en una gran "vista", y cualquier componente puede acceder al estado o desencadenar acciones, sin importar dónde se encuentren en el árbol. 
+
+Al definir y separar los conceptos involucrados en la administración del estado y hacer cumplir las reglas que mantienen la independencia entre las vistas y los estados, le damos a nuestro código más estructura y mantenibilidad. 
+
+Esta es la idea básica detrás de Redux: un único lugar centralizado para contener el estado global en su aplicación y patrones específicos a seguir al actualizar ese estado para que el código sea predecible.
+
+**Inmutabilidad**
+
+"Mutable" significa "cambiable". Si algo es "inmutable", nunca se puede cambiar. 
+
+Los objetos y matrices de JavaScript son mutables de forma predeterminada. Si creo un objeto, puedo cambiar el contenido de sus campos. Si creo una matriz, también puedo cambiar el contenido:
+
+```javascript
+const obj = { a: 1, b: 2 }
+// sigue siendo el mismo objeto exterior, pero los contenidos han cambiado
+obj.b = 3
+
+const arr = ['a', 'b']
+// In the same way, we can change the contents of this array
+arr.push('c')
+arr[1] = 'd'
+```
+
+Esto se llama mutar el objeto o la matriz. Es el mismo objeto o referencia de matriz en la memoria, pero ahora los contenidos dentro del objeto han cambiado. 
+
+Para actualizar los valores de manera inmutable, su código debe hacer copias de objetos/matrices existentes y luego modificar las copias. 
+
+Podemos hacer esto a mano usando los operadores de distribución de matriz/objeto de JavaScript, así como los métodos de matriz que devuelven nuevas copias de la matriz en lugar de mutar la matriz original:
+
+```javascript
+const obj = {
+  a: {
+    // Para actualizar obj.a.c de forma segura, tenemos que copiar cada pieza
+    c: 3
+  },
+  b: 2
+}
+
+const obj2 = {
+  // copiar obj
+  ...obj,
+  // sobreecribir a
+  a: {
+    // copiar obj.a
+    ...obj.a,
+    // sobreescribir c
+    c: 42
+  }
+}
+
+const arr = ['a', 'b']
+// Cree una nueva copia de arr, con "c" añadida al final
+const arr2 = arr.concat('c')
+
+// o podemos hacer una copia de la matriz original:
+const arr3 = arr.slice()
+// y mutar la copia:
+arr3.push('c')
+```
+
+Redux espera que todas las actualizaciones de estado se realicen de manera inmutable. Veremos dónde y cómo esto es importante un poco más adelante, así como algunas formas más fáciles de escribir una lógica de actualización inmutable.
+
+**Terminología**
+
+Hay algunos términos importantes de Redux con los que deberá familiarizarse antes de continuar:
+
+**Actions**
+
+Una acción es un objeto simple de JavaScript que tiene un campo *type*. Puede pensar en una acción como un evento que describe algo que sucedió en la aplicación. 
+
+El campo *type* debe ser una cadena que le dé a esta acción un nombre descriptivo, como *todos/todoAdded*. Por lo general, escribimos ese tipo de cadena como *dominio/nombre del evento*, donde la primera parte es la característica o categoría a la que pertenece esta acción, y la segunda parte es lo específico que sucedió.
+
+Un objeto de acción puede tener otros campos con información adicional sobre lo que sucedió. Por convención, ponemos esa información en un campo llamado *payload*. 
+
+Un objeto de acción típico podría verse así:
+
+```javascript
+const addTodoAction = {
+  type: 'todos/todoAdded',
+  payload: 'Buy milk'
+}
+```
+
+**Action Creators**
+
+Un *action creator* es una función que crea y devuelve un objeto de acción. Por lo general, usamos estos para no tener que escribir el objeto de acción a mano cada vez:
+
+```javascript
+const addTodo = text => {
+  return {
+    type: 'todos/todoAdded',
+    payload: text
+  }
+}
+```
 
 **Reducer**
-El reducer es una función pura que toma el estado anterior y una acción, y devuelve en nuevo estado
 
-### Technologies
+Un reductor es una función que recibe el *state* actual y un objeto *action*, decide cómo actualizar el estado si es necesario y devuelve el nuevo estado: *(state, action) => newState*. Puede pensar en un reducer como un detector de eventos que maneja los eventos en función del tipo de action (evento) recibido.
 
----
+Los reducers siempre deben seguir unas reglas específicas: 
 
-A list of technologies used within the project:
+- Solo deben calcular el nuevo valor de estado en función de los argumentos de *state* y *action*. 
+- No se les permite modificar el *state* existente. En su lugar, deben realizar actualizaciones inmutables, copiando el state existente y realizando cambios en los valores copiados. 
+- No deben hacer ninguna lógica asíncrona, calcular valores aleatorios o causar otros "efectos secundarios".
 
-- [Python](https://www.python.org/): Version 3.10.5
+La lógica dentro de las funciones del reducer normalmente sigue la misma serie de pasos: 
+
+- Verifique si al reductor le importa esta acción 
+ - Si es así, haga una copia del state, actualice la copia con nuevos valores y devuélvala 
+- De lo contrario, devuelve el state existente sin cambios.
+
+Aquí hay un pequeño ejemplo de un reducer, que muestra los pasos que debe seguir cada reductor:
+
+```javascript
+const initialState = { value: 0 }
+
+function counterReducer(state = initialState, action) {
+  // Verifique si al reducer le importa esta action
+  if (action.type === 'counter/increment') {
+    // Si es así, haga una copia de `state`
+    return {
+      ...state,
+      // y actualice la copia con el nuevo valor
+      value: state.value + 1
+    }
+  }
+  // de lo contrario, devolver el estado existente sin cambios
+  return state
+}
+```
+
+Los reducers pueden usar cualquier tipo de lógica interna para decidir cuál debería ser el nuevo state: *if/else*, *switch*, bucles, etc.
+
+**Store**
+
+El state actual de la aplicación Redux vive en un objeto llamado **store**.
+
+El store se crea pasando un reducer y tiene un método llamado getState que devuelve el valor del state actual:
+
+```javascript
+import { configureStore } from '@reduxjs/toolkit'
+
+const store = configureStore({ reducer: counterReducer })
+
+console.log(store.getState())
+// {value: 0}
+```
+
+**Dispatch**
+
+El store tiene un método llamado *dispatch*. La única forma de actualizar el estado es llamar a *store.dispatch()* y pasar un objeto action. La tienda ejecutará su función de reducción y guardará el nuevo valor de estado dentro, y podemos llamar a *getState()* para recuperar el valor actualizado:
+
+```javascript
+store.dispatch({ type: 'counter/increment' })
+
+console.log(store.getState())
+// {value: 1}
+```
+
+Puede pensar en dispatch actions como "desencadenar un evento" en la aplicación. Algo sucedió y queremos que el store lo sepa. Los reducers actúan como oyentes de eventos, y cuando escuchan una actionn que les interesa, actualizan el estado en respuesta.
+
+Por lo general, llamamos a los creadores de acciones para que envíen la acción correcta:
+
+```javascript
+const increment = () => {
+  return {
+    type: 'counter/increment'
+  }
+}
+
+store.dispatch(increment())
+
+console.log(store.getState())
+// {value: 2}
+```
+
+**Selectors**
+
+Los selectors son funciones que saben cómo extraer información específica de un valor de state almacenado. A medida que una aplicación crece, esto puede ayudar a evitar repetir la lógica, ya que diferentes partes de la aplicación necesitan leer los mismos datos:
+
+```javascript
+const selectCounterValue = state => state.value
+
+const currentValue = selectCounterValue(store.getState())
+console.log(currentValue)
+// 2
+```
+
+**Flujo de datos de la aplicación Redux**
+
+Anteriormente, hablamos sobre el "flujo de datos unidireccional", que describe esta secuencia de pasos para actualizar la aplicación: 
+- El state describe la condición de la aplicación en un momento específico.
+-  La interfaz de usuario se representa en función de ese state. 
+-  Cuando sucede algo (como que un usuario haga clic en un botón), el state se actualiza en función de lo que ocurrió 
+-  La interfaz de usuario se vuelve a renderizar en función del nuevo state
+
+Para Redux específicamente, podemos dividir estos pasos en más detalles:
+
+- Configuración inicial: 
+  - Se crea un store usando una función reducer de raíz. 
+  - El store llama al reducer raíz una vez y guarda el valor de retorno como su state inicial. 
+  - Cuando la interfaz de usuario se representa por primera vez, los componentes de la interfaz de usuario acceden al state actual del store y usan esos datos para decidir qué representar. También se suscriben a cualquier actualización futura del store para saber si el state ha cambiado. 
+- Actualizaciones: 
+  - Algo sucede en la aplicación, como que un usuario haga clic en un botón 
+  - El código de la aplicación envía una acción al store, como *dispatch({type: 'counter/increment'})* 
+  - El store vuelve a ejecutar el reducer con el *state* anterior y el *action* actual, y guarda el valor devuelto como el nuevo *state*. 
+  - El store notifica a todas las partes de la interfaz de usuario que están suscritas que el store se ha actualizado. 
+  - Cada componente de la interfaz de usuario que necesita datos del store verifica si las partes del state que necesitan han cambiado. 
+  - Cada componente que ve que sus datos han cambiado obliga a volver a renderizar con los nuevos datos, para que pueda actualizar lo que se muestra en la pantalla.
+
+
+### Tecnologias
+
 - [Visual Studio Code](https://code.visualstudio.com/): Version 1.69.2
+- [pnpm](https://pnpm.io/es/): Version 7.11.0
+- [Redux Toolkit](https://redux-toolkit.js.org/): Version 1.8.5
+- [RxJS](https://redux-toolkit.js.org/): Version 7.5.6
 
-### Installation
+### Instalacion
 
----
+```
+$ git clone https://github.com/FrankBV94/React-State-Handlers.git
+$ cd react-state
+$ pnpm install
+$ pnpm dev
+```
 
 ### Collaboration
 
