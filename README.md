@@ -12,7 +12,7 @@ Aprendiendo a usar RsJS, Context y Redux-Tollkit para manejar estados en React.
       - [Observables](#observables)
       - [RxJS](#rxjs)
       - [Context](#context)
-      - [Redux-Tollkit](#redux-tollkit)
+      - [Redux-Toolkit](#redux-toolkit)
     - [Tecnologias](#tecnologias)
     - [Instalacion](#instalacion)
     - [Collaboration](#collaboration)
@@ -743,7 +743,7 @@ class App extends React.Component {
 }
 ```
 
-#### Redux-Tollkit
+#### Redux-Toolkit
 
 **¿Qué es Redux?**
 
